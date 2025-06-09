@@ -7,7 +7,16 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "./",
+    "paths": {
+      "@core/*": ["src/app/core/*"],
+      "@domain/*": ["src/app/domain/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@widget/*": ["src/app/widget/*"],
+      "@assets/*": ["src/assets/*"],
+      "@environments/*": ["src/environments/*"],
+    }
   },
   "files": [],
   "include": [],

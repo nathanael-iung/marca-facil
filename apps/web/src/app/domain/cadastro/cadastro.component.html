@@ -1,0 +1,76 @@
+<div class="w-screen h-screen flex justify-center p-5">
+  <div class="w-full md:w-[50vw] flex flex-col gap-y-5 px-0 md:px-10 relative">
+    <div class="flex items-center justify-center gap-x-2">
+      <span class="material-symbols-outlined !text-2xl">
+        event_available
+      </span>
+      <p class="font-bold text-3xl">
+        MarcaFácil
+      </p>
+    </div>
+    @if(isMobile()){
+      <div class="flex items-center justify-center w-full gap-x-2 mt-5">
+        <div class="rounded-full w-[37px] h-[37px] font-bold text-[var(--p-stepper-step-number-active-color)] bg-[var(--p-stepper-step-number-active-background)] flex justify-center items-center">
+          {{ stepAtivo().index }}
+        </div>
+        <p class="font-bold text-[var(--p-stepper-step-title-active-color)] flex items-center">{{ stepAtivo().label }}</p>
+      </div>
+    }
+    <p-stepper [value]="1">
+      <p-step-list [class.!hidden]="isMobile()">
+        <p-step [value]="1">Bem-vindo</p-step>
+        <p-step [value]="2">Cadastro</p-step>
+        <p-step [value]="3">Serviços</p-step>
+      </p-step-list>
+      <p-step-panels>
+          <p-step-panel [value]="1">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="w-full pb-10 md:pb-5">
+                  <app-bem-vindo (selecionado)="tipoSelecionado($event); activateCallback(2); alterarStepAtivo(1);" />
+                </div>
+                <div class="w-full flex justify-center gap-x-5 fixed md:relative bottom-0 left-0 pb-5 md:pb-0">
+                  <p-button label="Já possuo cadastro" [raised]="true" (click)="toLogin()" styleClass="w-full"></p-button>
+                </div>
+              </ng-template>
+          </p-step-panel>
+
+          <p-step-panel [value]="2">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="w-full pb-10 md:pb-5">
+                  @if(tipo() === eTipoCadastro.CLIENTE){
+                    <app-cliente-cadastro />
+                  } @else {
+                    <app-empresa-cadastro />
+                  }
+                </div>
+                <div class="w-full flex gap-x-2 fixed md:relative bottom-0 left-0 pb-5 md:pb-0 px-3 bg-white">
+                  <p-button label="Voltar" [raised]="true" variant="outlined" severity="contrast" class="w-full" styleClass="w-full"
+                    (click)="activateCallback(1); alterarStepAtivo(0);"></p-button>
+                  <p-button label="Próximo" [raised]="true" class="w-full" styleClass="w-full"
+                    (click)="activateCallback(3)"></p-button>
+                </div>
+              </ng-template>
+          </p-step-panel>
+
+          <p-step-panel [value]="3">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="w-full pb-10 md:pb-5">
+                  @if(tipo() === eTipoCadastro.CLIENTE){
+                    <app-cliente-servicos />
+                  } @else {
+                    <app-empresa-servicos />
+                  }
+                </div>
+                <div class="w-full flex gap-x-2 fixed md:relative bottom-0 left-0 pb-5 md:pb-0 px-3">
+                  <p-button label="Voltar" [raised]="true" variant="outlined" severity="contrast" class="w-full" styleClass="w-full"
+                    (click)="activateCallback(2); alterarStepAtivo(1);"></p-button>
+                  <p-button label="Finalizar" [raised]="true" class="w-full" styleClass="w-full"
+                    (click)="true"></p-button>
+                </div>
+              </ng-template>
+          </p-step-panel>
+      </p-step-panels>
+    </p-stepper>
+
+  </div>
+</div>

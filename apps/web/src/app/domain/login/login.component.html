@@ -1,0 +1,19 @@
+<div class="w-screen h-screen flex items-center justify-center px-10">
+  <form [formGroup]="formLogin" class="w-full md:w-[35vw] flex flex-col gap-y-5">
+    <div class="flex items-center justify-center gap-x-2">
+      <span class="material-symbols-outlined !text-2xl">
+        event_available
+      </span>
+      <p class="font-bold text-3xl">
+        MarcaFácil
+      </p>
+    </div>
+    <input type="text" pInputText formControlName="username"
+      placeholder="Usuário" />
+    <p-password formControlName="password" [toggleMask]="true"
+      [feedback]="false" styleClass="w-full" inputStyleClass="w-full"
+      placeholder="Senha" />
+    <p-button label="Login" styleClass="w-full" />
+    <a class="text-sm cursor-pointer" [routerLink]="['/cadastro']">Não possui cadastro? <span class="font-bold">Registre-se aqui</span></a>
+  </form>
+</div>

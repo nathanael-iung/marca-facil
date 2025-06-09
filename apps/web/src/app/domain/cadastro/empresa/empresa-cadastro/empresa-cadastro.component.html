@@ -1,0 +1,26 @@
+<div class="flex flex-col items-center md:flex-row md:justify-center md:items-start w-full gap-10 p-5">
+  <form [formGroup]="formCliente" class="w-full md:w-[50vw] flex flex-col gap-y-5">
+    <p-inputmask mask="99.999.999/9999-99" formControlName="cnpj" styleClass="w-full"
+      placeholder="CNPJ" [autoClear]=false />
+    <input type="text" pInputText formControlName="nome"
+      placeholder="Nome empresarial" />
+    <p-inputmask mask="(99) 9 9999-999?9" formControlName="telefone" styleClass="w-full"
+      placeholder="Telefone" [autoClear]=false />
+    <input type="text" pInputText formControlName="email"
+      placeholder="E-mail" />
+    <p-inputmask mask="99.999-999" formControlName="cep" styleClass="w-full"
+      placeholder="CEP" [autoClear]=false />
+    <input type="text" pInputText formControlName="uf"
+      placeholder="Estado" />
+    <input type="text" pInputText formControlName="cidade"
+      placeholder="Cidade" />
+    <input type="text" pInputText formControlName="endereco"
+      placeholder="Endereco" />
+    <p-inputnumber formControlName="numero" mode="decimal" [useGrouping]="false" placeholder="Número" />
+    <input type="text" pInputText formControlName="complemento"
+      placeholder="Complemento" />
+    <p-password formControlName="password" [toggleMask]="true" styleClass="w-full" inputStyleClass="w-full" placeholder="Senha"
+      promptLabel="Digite uma senha" weakLabel="Senha fraca" mediumLabel="Senha mediana" strongLabel="Senha forte" />
+    <p-password formControlName="password_repeat" [toggleMask]="true" styleClass="w-full" inputStyleClass="w-full" placeholder="Confirmar senha" />
+  </form>
+</div>
