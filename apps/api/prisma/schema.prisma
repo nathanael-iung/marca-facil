@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  password    String
+  telefone       String?
+  client      Client?
+  company     Company?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Client {
+  id          Int     @id @default(autoincrement())
+  userId      Int     @unique
+  cpf         String  @unique
+  nome        String
+  data_nascimento   DateTime
+  cep         String
+  uf          String
+  cidade        String
+  bairro String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Company {
+  id          Int     @id @default(autoincrement())
+  userId      Int     @unique
+  cnpj        String  @unique
+  cep         String
+  uf          String
+  cidade        String
+  bairro       String
+  endereco     String
+  numero      String
+  complemento  String?
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
