@@ -9,6 +9,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import Lara from '@primeng/themes/lara';
 import { definePreset } from '@primeng/themes'
+import { provideHttpClient } from "@angular/common/http";
 
 const noirPreset = definePreset(Lara, {
   semantic: {
@@ -71,6 +72,7 @@ export const appConfig: ApplicationConfig = {
             darkModeSelector: false
           },
       }
-    })
+    }),
+    provideHttpClient()
   ]
 };

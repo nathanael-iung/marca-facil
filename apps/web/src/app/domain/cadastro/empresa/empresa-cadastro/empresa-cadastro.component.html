@@ -1,9 +1,9 @@
 <div class="flex flex-col items-center md:flex-row md:justify-center md:items-start w-full gap-10 p-5">
-  <form [formGroup]="formCliente" class="w-full md:w-[50vw] flex flex-col gap-y-5">
+  <form [formGroup]="formEmpresa" class="w-full md:w-[50vw] flex flex-col gap-y-5">
     <p-inputmask mask="99.999.999/9999-99" formControlName="cnpj" styleClass="w-full"
       placeholder="CNPJ" [autoClear]=false />
-    <input type="text" pInputText formControlName="nome"
-      placeholder="Nome empresarial" />
+    <input type="text" pInputText formControlName="razao_social"
+      placeholder="Razão social" />
     <p-inputmask mask="(99) 9 9999-999?9" formControlName="telefone" styleClass="w-full"
       placeholder="Telefone" [autoClear]=false />
     <input type="text" pInputText formControlName="email"
@@ -14,6 +14,8 @@
       placeholder="Estado" />
     <input type="text" pInputText formControlName="cidade"
       placeholder="Cidade" />
+    <input type="text" pInputText formControlName="bairro"
+      placeholder="Bairro" />
     <input type="text" pInputText formControlName="endereco"
       placeholder="Endereco" />
     <p-inputnumber formControlName="numero" mode="decimal" [useGrouping]="false" placeholder="Número" />

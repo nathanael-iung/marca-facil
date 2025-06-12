@@ -23,21 +23,22 @@ export class EmpresaCadastroComponent implements OnInit {
 
   formBuilder = inject(FormBuilder)
 
-  formCliente: FormGroup = this.formBuilder.group({})
+  formEmpresa: FormGroup = this.formBuilder.group({})
 
   ngOnInit(): void {
     this.initFormEmpresa()
   }
 
   initFormEmpresa(): void {
-    this.formCliente = this.formBuilder.group({
+    this.formEmpresa = this.formBuilder.group({
       cnpj: [null, Validators.required],
-      nome: [null, Validators.required],
+      razao_social: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       telefone: [null, Validators.required],
       cep: [null, Validators.required],
       uf: [{value: null, disabled: true}],
       cidade: [{value: null, disabled: true}],
+      bairro: [{value: null, disabled: true}],
       endereco: [{value: null, disabled: true}],
       numero: [null, Validators.required],
       complemento: [null],

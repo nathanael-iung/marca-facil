@@ -5,6 +5,10 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RouterLink } from "@angular/router";
+import { LoginService } from "./login.service";
+import { ToastrComponent } from "@shared/components/toastr/toastr.component";
+import { ToastrService } from "@shared/components/toastr/toastr.service";
+import { MessageService } from "primeng/api";
 
 @Component({
   selector: 'app-login',
@@ -14,14 +18,18 @@ import { RouterLink } from "@angular/router";
     ButtonModule,
     InputTextModule,
     PasswordModule,
-    RouterLink
+    RouterLink,
+    ToastrComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
+  providers: [MessageService]
 })
 export class LoginComponent implements OnInit {
 
   formBuilder = inject(FormBuilder);
+  loginService = inject(LoginService)
+  toastrService = inject(ToastrService)
 
   formLogin: FormGroup = this.formBuilder.group({});
 
@@ -34,6 +42,16 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     })
+  }
+
+  login(): void {
+    this.formLogin.markAllAsTouched()
+    if(this.formLogin.invalid){
+      this.toastrService.danger('Preencha os campos obrigatórios para realizar o Login')
+      return
+    }
+
+    this.loginService.login(this.formLogin.value).subscribe({})
   }
 
 }

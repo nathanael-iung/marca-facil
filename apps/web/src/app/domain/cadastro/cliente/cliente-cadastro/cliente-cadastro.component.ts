@@ -35,7 +35,7 @@ export class ClienteCadastroComponent implements OnInit {
       cep: [null, Validators.required],
       uf: [{value: null, disabled: true}],
       cidade: [{value: null, disabled: true}],
-      endereco: [{value: null, disabled: true}],
+      bairro: [{value: null, disabled: true}],
       email: [null, [Validators.required, Validators.email]],
       telefone: [null, Validators.required],
       password: [null, Validators.required],
