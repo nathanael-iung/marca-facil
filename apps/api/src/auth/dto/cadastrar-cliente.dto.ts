@@ -1,5 +1,4 @@
 import { IsEmail, IsString, Length, IsNotEmpty, Matches } from 'class-validator';
-import { Type } from 'class-transformer';
 
 export class CadastrarClienteDto {
 
@@ -26,7 +25,7 @@ export class CadastrarClienteDto {
 
   @IsNotEmpty({ message: 'O CEP não pode ser vazio.' })
   @IsString()
-  @Length(9, 9, { message: 'O CEP deve ter 9 caracteres.' })
+  @Length(8, 8, { message: 'O CEP deve ter 8 caracteres.' })
   cep: string;
 
   @IsString()
