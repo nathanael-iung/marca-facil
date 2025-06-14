@@ -8,9 +8,15 @@ import {
   group,
   animate
 } from '@angular/animations';
+import { ToastrComponent } from "@shared/components/toastr/toastr.component";
+import { MessageService } from "primeng/api";
 
 @Component({
-  imports: [RouterModule],
+  imports: [
+    RouterModule,
+    ToastrComponent
+  ],
+  providers: [MessageService],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

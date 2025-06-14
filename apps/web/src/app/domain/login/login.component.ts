@@ -6,9 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RouterLink } from "@angular/router";
 import { LoginService } from "./login.service";
-import { ToastrComponent } from "@shared/components/toastr/toastr.component";
 import { ToastrService } from "@shared/components/toastr/toastr.service";
-import { MessageService } from "primeng/api";
 
 @Component({
   selector: 'app-login',
@@ -19,11 +17,9 @@ import { MessageService } from "primeng/api";
     InputTextModule,
     PasswordModule,
     RouterLink,
-    ToastrComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
-  providers: [MessageService]
 })
 export class LoginComponent implements OnInit {
 

@@ -11,6 +11,8 @@ import { EmpresaServicosComponent } from "./empresa/empresa-servicos/empresa-ser
 import { UtilService } from "@shared/services/util/util.service";
 import { ButtonModule } from "primeng/button";
 import { Router } from "@angular/router";
+import { MessageService } from "primeng/api";
+import { CadastroService } from "./cadastro.service";
 
 interface iStep {
   index: number
@@ -30,6 +32,7 @@ interface iStep {
     EmpresaServicosComponent,
     ButtonModule
   ],
+  providers: [MessageService],
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.css',
 })
@@ -38,6 +41,7 @@ export class CadastroComponent implements OnInit {
   formBuilder = inject(FormBuilder)
   utils = inject(UtilService)
   router = inject(Router)
+  cadastro = inject(CadastroService)
 
   isMobile = signal(false)
   tipo = signal<eTipoCadastro | null>(null)
@@ -61,7 +65,7 @@ export class CadastroComponent implements OnInit {
   stepAtivo = signal<iStep>(this.steps[0])
 
   ngOnInit(): void {
-    this.isMobile.set(this.utils.isMobile)
+    this.isMobile.set(this.utils.isMobile())
   }
 
   tipoSelecionado(tipo: eTipoCadastro): void {
@@ -74,6 +78,10 @@ export class CadastroComponent implements OnInit {
 
   alterarStepAtivo(index: number): void {
     this.stepAtivo.set(this.steps[index])
+  }
+
+  proximoPasso(): void {
+    this.cadastro.transmitirProximoPasso(true)
   }
 
 }
