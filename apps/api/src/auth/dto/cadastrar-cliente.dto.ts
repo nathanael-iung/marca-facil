@@ -1,4 +1,5 @@
-import { IsEmail, IsString, IsDateString, Length, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsString, Length, IsNotEmpty, Matches } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CadastrarClienteDto {
 
@@ -20,14 +21,16 @@ export class CadastrarClienteDto {
   telefone: string;
 
   @IsNotEmpty({ message: 'A data de nascimento não pode ser vazia.' })
-  @IsDateString({}, {message: 'A data de nascimento está em um formato inválido'})
+  @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'A data de nascimento deve estar no formato YYYY-MM-DD.'})
   data_nascimento: string;
 
   @IsNotEmpty({ message: 'O CEP não pode ser vazio.' })
   @IsString()
+  @Length(9, 9, { message: 'O CEP deve ter 9 caracteres.' })
   cep: string;
 
   @IsString()
+  @Length(2, 2, {message: 'O UF deve possuir 2 caracteres'})
   uf: string;
 
   @IsString()

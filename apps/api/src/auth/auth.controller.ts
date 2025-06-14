@@ -1,16 +1,19 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { CadastrarClienteDto } from "./dto/cadastrar-cliente.dto";
+import { CadastrarEmpresaDto } from "./dto/cadastrar-empresa.dto";
 
-@Controller('auth')
+@Controller('auth') // Todas as rotas aqui começarão com /auth
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
-  @Post('login')
-  async login(@Body() body: { username: string; password: string }) {
-    const user = await this.authService.validateUser(body.username, body.password);
-    if (!user) {
-      throw new UnauthorizedException('Credenciais inválidas');
-    }
-    return this.authService.login(user);
+  @Post('register/client') // Rota: POST /auth/register/client
+  registerClient(@Body() createClientDto: CadastrarClienteDto) {
+    return this.authService.createClient(createClientDto);
+  }
+
+  @Post('register/company') // Rota: POST /auth/register/company
+  registerCompany(@Body() createCompanyDto: CadastrarEmpresaDto) {
+    return this.authService.createCompany(createCompanyDto);
   }
 }

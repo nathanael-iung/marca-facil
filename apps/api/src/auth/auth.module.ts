@@ -5,6 +5,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { UsersModule } from "../users/users.module";
 import { PassportModule } from "@nestjs/passport";
 import { JwtModule } from '@nestjs/jwt';
+import { PrismaModule } from "../prisma/prisma.module";
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { JwtModule } from '@nestjs/jwt';
       secret: 'daioushg2349832', //TODO: colocar em variavel de ambiente
       signOptions: { expiresIn: '1h' },
     }),
+    PrismaModule
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],

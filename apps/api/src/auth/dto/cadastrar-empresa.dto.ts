@@ -21,7 +21,7 @@ export class CadastrarEmpresaDto {
 
   @IsString()
   @IsNotEmpty({ message: 'O CEP não pode ser vazio.' })
-  @Length(8, 8, { message: 'O CEP deve ter 8 caracteres.' })
+  @Length(9, 9, { message: 'O CEP deve ter 9 caracteres.' })
   cep: string;
 
   @IsString()
