@@ -87,9 +87,7 @@ export class ClienteCadastroComponent implements OnInit, OnDestroy {
 
   verificarValidadeCPF(): void {
     const cpfControl = this.formCliente.get('cpf')
-    if(!cpfControl?.value)
-      return
-    cpfControl.statusChanges.pipe(
+    cpfControl?.statusChanges.pipe(
       debounceTime(50),
       takeUntil(this.sub$)
     )?.subscribe(status => {
@@ -102,9 +100,7 @@ export class ClienteCadastroComponent implements OnInit, OnDestroy {
 
   verificarValidadeDataNascimento(): void {
     const dataNascControl = this.formCliente.get('dat_nasc')
-    if(!dataNascControl?.value)
-      return
-    dataNascControl.statusChanges.pipe(
+    dataNascControl?.statusChanges.pipe(
       debounceTime(50),
       takeUntil(this.sub$)
     )?.subscribe(status => {
@@ -119,6 +115,7 @@ export class ClienteCadastroComponent implements OnInit, OnDestroy {
     const cep = this.formCliente.get('cep')?.value
     if(!cep)
       return
+
     this.viaCep.buscarDadosCEP(cep).pipe(
       takeUntil(this.sub$)
     ).subscribe({

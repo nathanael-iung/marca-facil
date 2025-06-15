@@ -3,17 +3,17 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 
 interface iViaCep {
-  cep: string;
-  logradouro: string;
-  complemento: string;
-  bairro: string;
-  localidade: string;
-  uf: string;
-  ibge: string;
-  gia: string;
-  ddd: string;
-  siafi: string;
-  erro: string
+  cep?: string;
+  logradouro?: string;
+  complemento?: string;
+  bairro?: string;
+  localidade?: string;
+  uf?: string;
+  ibge?: string;
+  gia?: string;
+  ddd?: string;
+  siafi?: string;
+  erro?: string
 }
 
 @Injectable({
@@ -27,5 +27,4 @@ export class ViaCepService {
     const cepTratado = cep?.replace(/-/g, '')?.replace(/\./, '');
     return this.http.get<iViaCep>(`https://viacep.com.br/ws/${cepTratado}/json`);
   }
-
 }
