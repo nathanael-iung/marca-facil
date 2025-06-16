@@ -1,11 +1,19 @@
-import { Controller, Get, Request, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Controller, Get, Req, Request, UseGuards } from '@nestjs/common';
+import { AuthGuard } from "@nestjs/passport";
+import { RolesGuard } from "../auth/guards/roles.guard";
+import { Roles } from "../auth/decorators/roles.decorator";
+import { Role } from "@prisma/client";
 
 @Controller('users')
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 export class UsersController {
-  @UseGuards(JwtAuthGuard)
+
   @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  @Roles(Role.ADMIN, Role.CLIENT)
+  getProfile(@Req() req: Request) {
+    // req.user contém os dados retornados pelo método validate() da JwtStrategy
+    return {
+      message: 'OK'
+    }
   }
 }

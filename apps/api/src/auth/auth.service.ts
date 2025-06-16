@@ -1,14 +1,67 @@
 // src/auth/auth.service.ts
-import { ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, Logger, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service'; // Assumindo que você tem um PrismaService
 import * as bcrypt from 'bcrypt';
 import { CadastrarClienteDto } from "./dto/cadastrar-cliente.dto";
 import { CadastrarEmpresaDto } from "./dto/cadastrar-empresa.dto";
+import { LoginDto } from "./dto/login.dto";
+import { JwtService } from "@nestjs/jwt";
+import { User } from "@prisma/client";
 
 @Injectable()
 export class AuthService {
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService,
+              private readonly jwtService: JwtService
+  ) {}
+
+  async login(loginDto: LoginDto): Promise<{ accessToken: string, user: any }> {
+
+    const { identifier, password } = loginDto;
+
+    let user: User | null = null;
+
+    // Removemos a formatação para verificar CPF/CNPJ
+    const sanitizedIdentifier = identifier.replace(/[^\d]/g, '');
+
+    // 1. Detectar o tipo de identificador e buscar o usuário
+    if (identifier.includes('@')) {
+      // É um email, busca direto na tabela User
+      user = await this.prisma.user.findUnique({ where: { email: identifier } });
+    } else if (sanitizedIdentifier.length === 11) {
+      // É um CPF, busca na tabela Client e inclui o User relacionado
+      const client = await this.prisma.client.findUnique({
+        where: { cpf: sanitizedIdentifier },
+        include: { user: true }, // Prisma busca o usuário associado
+      });
+      user = client?.user ?? null;
+    } else if (sanitizedIdentifier.length === 14) {
+      // É um CNPJ, busca na tabela Company e inclui o User relacionado
+      const company = await this.prisma.company.findUnique({
+        where: { cnpj: sanitizedIdentifier },
+        include: { user: true },
+      });
+      user = company?.user ?? null;
+    }
+
+    // 2. Validar usuário e senha (lógica existente)
+    if (!user) {
+      throw new UnauthorizedException('Credenciais inválidas.');
+    }
+
+    const isPasswordMatching = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatching) {
+      throw new UnauthorizedException('Credenciais inválidas.');
+    }
+
+    // 3. Gerar o JWT
+    const payload = { sub: user.id, email: user.email, role: user.role };
+    const accessToken = await this.jwtService.signAsync(payload);
+
+    const { password: _, ...userResult } = user;
+    return { accessToken, user: userResult };
+  }
 
   async createClient(dto: CadastrarClienteDto) {
 
@@ -35,6 +88,7 @@ export class AuthService {
             email: dto.email,
             password: hashedPassword,
             telefone: dto.telefone,
+            role: 'CLIENT'
           },
         });
 
@@ -91,6 +145,7 @@ export class AuthService {
             email: dto.email,
             password: hashedPassword,
             telefone: dto.telefone,
+            role: 'COMPANY'
           },
         });
 
