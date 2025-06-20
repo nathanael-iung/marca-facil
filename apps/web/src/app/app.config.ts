@@ -11,6 +11,7 @@ import Lara from '@primeng/themes/lara';
 import { definePreset } from '@primeng/themes'
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { errorHandlerInterceptor } from "@core/interceptors/error-handler/error-handler.interceptor";
+import { loadingInterceptor } from "@core/interceptors/loading/loading.interceptor";
 
 const noirPreset = definePreset(Lara, {
   semantic: {
@@ -76,7 +77,8 @@ export const appConfig: ApplicationConfig = {
     }),
     provideHttpClient(
       withInterceptors([
-        errorHandlerInterceptor
+        errorHandlerInterceptor,
+        loadingInterceptor
       ])
     )
   ]

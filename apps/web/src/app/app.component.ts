@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { LoadingComponent } from './shared/components/loading/loading.component';
+import { Component, inject } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import {
   trigger,
@@ -10,11 +11,15 @@ import {
 } from '@angular/animations';
 import { ToastrComponent } from "@shared/components/toastr/toastr.component";
 import { MessageService } from "primeng/api";
+import { LoadingService } from "@shared/services/loading/loading.service";
+import { CommonModule } from "@angular/common";
 
 @Component({
   imports: [
     RouterModule,
-    ToastrComponent
+    ToastrComponent,
+    CommonModule,
+    LoadingComponent
   ],
   providers: [MessageService],
   selector: 'app-root',
@@ -55,6 +60,10 @@ import { MessageService } from "primeng/api";
   ]
 })
 export class AppComponent {
+
+  loadingService = inject(LoadingService)
+  loading$ = this.loadingService.escutarLoadingState()
+
   title = 'web';
 
   prepareRoute(outlet: RouterOutlet) {

@@ -1,4 +1,8 @@
-<main [@routeAnimations]="prepareRoute(outlet)">
+@if(loading$ | async;){
+  <app-loading />
+}
+
+<main [@routeAnimations]="prepareRoute(outlet)" [class.opacity-50]="loading$ | async">
   <router-outlet #outlet="outlet"></router-outlet>
 </main>
 
