@@ -15,7 +15,7 @@ export class LoginService {
   http = inject(HttpClient)
   private readonly API = env.API
 
-  login(dados: {username: string, password: string}): Observable<iResponseLogin> {
+  login(dados: {identifier: string, password: string}): Observable<iResponseLogin> {
     return this.http.post<iResponseLogin>(this.API + 'auth/login', dados);
   }
 }

@@ -55,11 +55,11 @@ export class CadastroComponent implements OnInit {
     },
     {
       index: 2,
-      label: 'Cadastro'
+      label: 'Cadastro de prestador'
     },
     {
       index: 3,
-      label: 'Serviços'
+      label: 'Cadastro de serviços'
     }
   ]
   stepAtivo = signal<iStep>(this.steps[0])

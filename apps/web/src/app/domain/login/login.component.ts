@@ -35,15 +35,17 @@ export class LoginComponent implements OnInit {
 
   initForm() {
     this.formLogin = this.formBuilder.group({
-      username: ['', Validators.required],
+      identifier: ['', Validators.required],
       password: ['', Validators.required]
     })
   }
 
   login(): void {
+
     this.formLogin.markAllAsTouched()
+
     if(this.formLogin.invalid){
-      this.toastrService.danger('Preencha os campos obrigatórios para realizar o Login')
+      this.toastrService.danger('Preencha os campos obrigatórios para realizar o Login.')
       return
     }
 

@@ -28,7 +28,7 @@
                 <div class="w-full pb-10 md:pb-5">
                   <app-bem-vindo (selecionado)="tipoSelecionado($event); activateCallback(2); alterarStepAtivo(1);" />
                 </div>
-                <div class="w-full flex justify-center gap-x-5 fixed md:relative bottom-0 left-0 pb-5 md:pb-0">
+                <div class="w-full flex justify-center gap-x-5 fixed md:relative bottom-0 left-0 pb-5 md:pb-0 bg-white">
                   <p-button label="Já possuo cadastro" [raised]="true" (click)="toLogin()" styleClass="w-full"></p-button>
                 </div>
               </ng-template>
@@ -61,11 +61,11 @@
                     <app-empresa-servicos />
                   }
                 </div>
-                <div class="w-full flex gap-x-2 fixed md:relative bottom-0 left-0 pb-5 md:pb-0 px-3">
+                <div class="w-full flex gap-x-2 fixed md:relative bottom-0 left-0 pb-5 md:pb-0 px-3 bg-white">
                   <p-button label="Voltar" [raised]="true" variant="outlined" severity="contrast" class="w-full" styleClass="w-full"
                     (click)="activateCallback(2); alterarStepAtivo(1);"></p-button>
                   <p-button label="Finalizar" [raised]="true" class="w-full" styleClass="w-full"
-                    (click)="true"></p-button>
+                    (click)="proximoPasso();"></p-button>
                 </div>
               </ng-template>
           </p-step-panel>

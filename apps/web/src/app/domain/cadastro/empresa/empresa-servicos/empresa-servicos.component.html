@@ -1,1 +1,210 @@
-<p>empresa-servicos works!</p>
+<div class="flex flex-col items-center md:flex-row md:justify-center md:items-start w-full gap-10 p-5">
+  <form [formGroup]="formServicos" class="w-full md:w-[50vw] flex flex-col gap-y-5">
+    <div class="flex flex-col gap-y-2">
+      <label for="categoria">Qual sua área de atuação?</label>
+      <p-multiselect [options]="categorias" formControlName="categoria"
+        optionValue="value" optionLabel="label"
+        placeholder="Selecione"
+        emptyFilterMessage="Nenhum resultado encontrado"
+        emptyMessage="Nenhum valor encontrado"
+        selectedItemsLabel="{0} item(s) selecionado(s)"
+        styleClass="w-full" />
+    </div>
+    <p-divider></p-divider>
+    <div class="flex justify-between items-center">
+      <span></span>
+      <h2 class="font-bold text-[1.25rem]">Serviços disponibilizados</h2>
+      <p-button (onClick)="adicionarServico()" size="small" severity="success" [outlined]="true">
+        <span class="material-symbols-outlined !text-base">
+          add
+        </span>
+      </p-button>
+    </div>
+    <div formArrayName="servicos" class="flex flex-col gap-y-3">
+      @for (servico of servicos.controls; track $index; let i = $index) {
+        <p-card [formGroupName]="i">
+          <ng-template pTemplate="title">
+            <div class="flex justify-between items-center">
+              <span></span>
+              <span>Serviço #{{ i + 1 }}</span>
+              <p-button severity="danger" (click)="removerServico(i)" size="small" [outlined]="true">
+                <span class="material-symbols-outlined !text-base">
+                  delete
+                </span>
+              </p-button>
+            </div>
+          </ng-template>
+          <div class="grid grid-cols-6 gap-y-5 gap-x-2">
+            <div class="col-span-6">
+              <label for="categoria">Sub-categoria</label>
+              <p-multiselect [options]="subCategorias" formControlName="sub_categoria"
+                optionValue="value" optionLabel="label"
+                placeholder="Selecione"
+                styleClass="w-full" />
+            </div>
+            <div class="col-span-6">
+              <div class="flex flex-col gap-y-2">
+                <label for="nome">Nome do serviço</label>
+                <input type="text" pInputText formControlName="nome"
+                  class="w-full" />
+              </div>
+            </div>
+            <div class="col-span-6">
+              <div class="flex flex-col gap-y-2">
+                <label for="nome">Nome do profissional</label>
+                <input type="text" pInputText formControlName="profissional"
+                  class="w-full" />
+              </div>
+            </div>
+            <div class="col-span-6 md:col-span-2">
+              <div class="flex flex-col gap-y-2">
+                <label for="nome">Valor</label>
+                <p-inputnumber formControlName="valor" mode="currency"
+                  currency="BRL" locale="pt-BR"
+                  styleClass="w-full"
+                  inputStyleClass="w-full" />
+              </div>
+            </div>
+            <div class="col-span-6 md:col-span-2">
+              <div class="flex flex-col gap-y-2">
+                <label for="nome">Duração(em minutos)</label>
+                <p-inputnumber formControlName="duracao"
+                  [min]="0" [max]="660"
+                  styleClass="w-full"
+                  inputStyleClass="w-full" />
+              </div>
+            </div>
+            <div class="col-span-6 md:col-span-2">
+              <div class="flex flex-col gap-y-2">
+                <label for="nome">Intervalo(em minutos)</label>
+                <p-inputnumber formControlName="intervalo"
+                  [min]="0" [max]="660"
+                  styleClass="w-full"
+                  inputStyleClass="w-full" />
+              </div>
+            </div>
+            <div class="col-span-6 md:col-span-2">
+              <div class="flex flex-col gap-y-3">
+                <label for="disponibilidade">Disponibilidade para agendamento:</label>
+                <div class="w-full flex justify-center">
+                  <p-button (onClick)="adicionarDisponibilidade(i)" size="small" severity="success" [outlined]="true">
+                    <span class="material-symbols-outlined !text-base">
+                      add
+                    </span>
+                  </p-button>
+                </div>
+                <div formArrayName="disponibilidade" class="flex flex-col gap-y-3">
+                  @for (disp of servicoDisponibilidade(i).controls; track $index; let j = $index) {
+                    <p-divider></p-divider>
+                    <div [formGroupName]="j" class="flex flex-col gap-y-3">
+                      <div class="flex justify-between items-center">
+                        <span></span>
+                        <span class="text-xl font-bold">Disponibilidade #{{ j + 1 }}</span>
+                        <p-button severity="danger" (click)="removerDisponibilidade(i, j)" size="small" [outlined]="true">
+                          <span class="material-symbols-outlined !text-base">
+                            delete
+                          </span>
+                        </p-button>
+                      </div>
+                      <div class="grid grid-cols-6 gap-y-5 gap-x-2">
+                        <div class="col-span-6 md:col-span-2">
+                          <div class="flex flex-col gap-y-2">
+                            <label for="dias_da_semana">Dia(s) da semana</label>
+                            <p-multiSelect [options]="diasDaSemana"
+                              formControlName="dias_da_semana"
+                              optionValue="value" optionLabel="label"
+                              placeholder="Selecione"
+                              styleClass="w-full">
+                            </p-multiSelect>
+                          </div>
+                        </div>
+                        <div class="col-span-3">
+                          <div class="flex flex-col gap-y-2">
+                            <label for="horario_inicio">Hora início</label>
+                            <p-datepicker formControlName="horario_inicio"
+                              [timeOnly]="true"
+                              styleClass="w-full" />
+                          </div>
+                        </div>
+                        <div class="col-span-3">
+                          <div class="flex flex-col gap-y-2">
+                            <label for="horario_fim">Hora fim</label>
+                            <p-datepicker formControlName="horario_fim"
+                              [timeOnly]="true"
+                              styleClass="w-full" />
+                          </div>
+                        </div>
+                        @if(!servicoDisponibilidadePausa(i, j).controls.length){
+                          <div class="col-span-6">
+                            <div class="flex justify-center">
+                              <p-button (onClick)="adicionarPausa(i, j)" size="small" severity="success" [outlined]="true" label="Adicionar pausa" />
+                            </div>
+                          </div>
+                        } @else {
+                          <div class="col-span-6">
+                            <div class="flex flex-col gap-y-2">
+                              <label for="horario_fim">Pausas:</label>
+                              <div class="w-full flex justify-center">
+                                <p-button (onClick)="adicionarPausa(i, j)" size="small" severity="success" [outlined]="true">
+                                  <span class="material-symbols-outlined !text-base">
+                                    add
+                                  </span>
+                                </p-button>
+                              </div>
+                              <div formArrayName="pausas" class="flex flex-col gap-y-3">
+                                @for (pausa of servicoDisponibilidadePausa(i, j).controls; track $index; let k = $index) {
+                                  <p-divider></p-divider>
+                                  <div [formGroupName]="k" class="flex flex-col gap-y-3">
+                                    <div class="flex justify-between items-center">
+                                      <span></span>
+                                      <span class="text-xl font-bold">Pausa #{{ k + 1 }}</span>
+                                      <p-button severity="danger" (click)="removerPausa(i, j, k)" size="small" [outlined]="true">
+                                        <span class="material-symbols-outlined !text-base">
+                                          delete
+                                        </span>
+                                      </p-button>
+                                    </div>
+                                    <div class="grid grid-cols-6 gap-y-5 gap-x-2">
+                                      <div class="col-span-3">
+                                        <div class="flex flex-col gap-y-2">
+                                          <label for="horario_inicio">Hora início</label>
+                                          <p-datepicker formControlName="horario_inicio"
+                                            [timeOnly]="true"
+                                            styleClass="w-full" />
+                                        </div>
+                                      </div>
+                                      <div class="col-span-3">
+                                        <div class="flex flex-col gap-y-2">
+                                          <label for="horario_fim">Hora fim</label>
+                                          <p-datepicker formControlName="horario_fim"
+                                            [timeOnly]="true"
+                                            styleClass="w-full" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                    <p-divider></p-divider>
+                  }
+                </div>
+              </div>
+            </div>
+            <div class="col-span-6 md:col-span-2">
+              <div class="flex flex-col gap-y-2">
+                <label for="nome">Está disponível para agendamento?</label>
+                <p-toggleswitch formControlName="status" />
+              </div>
+
+            </div>
+          </div>
+        </p-card>
+      }
+    </div>
+  </form>
+</div>
